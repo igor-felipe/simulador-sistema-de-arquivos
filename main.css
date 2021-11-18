@@ -1,0 +1,249 @@
+/* Demo page styles
+-------------------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+body {
+  background: rgba(255, 255, 255, 0.596);
+  font-family: 'Roboto', sans-serif;
+  font-size: medium;
+  line-height: 30px;
+}
+
+input {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.corpo {
+  display: inline-flex;
+  height: auto;
+  width: auto;
+}
+
+.mainTitle {
+  text-align: center;
+}
+
+.card {
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 0.5% 1%;
+  box-sizing: border-box;
+  width: max-content;
+}
+
+
+.title {
+  margin: auto;
+  font-size: inherit;
+  box-sizing: border-box;
+  width: max-content;
+}
+
+.memoryTable{
+  position: relative;
+  min-width: 500px;
+}
+
+.fileSystem {
+  font-size: small;
+  color: #ffffff;
+  position: absolute;
+  top: 30px;
+  left: 90px;
+}
+
+p{
+  margin: 0;
+  font-size: small;
+}
+
+.title{
+  margin: auto;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.forms {
+  font-size: inherit;
+  box-sizing: border-box;
+}
+
+.tree {
+  padding: 10px;
+  height: auto;
+  width: max-content;
+  font-size: medium;
+}
+
+.tree ul {
+  margin-left: 0px;
+  margin-top: 0px;
+  padding-left: 20px;
+  border-left: 1px dotted rgb(0, 0, 0);
+  border-spacing: 10px;
+}
+
+.tree li {
+  list-style: none;
+  font-style: bold;
+  font-weight: normal;
+}
+
+.tree .fa-file, .fa-folder {
+  padding-right: 7px;
+}
+
+.tree .fa-minus-circle {
+  padding-left: 7px;
+}
+
+.fa-file {
+  color: gray;
+}
+
+.fa-folder {
+  color: orange;
+}
+
+.fa-minus-circle {
+  color: rgba(255, 0, 0, 0.137);
+}
+
+.fa-minus-circle:hover {
+  color: rgb(255, 0, 0);
+}
+
+.info {
+  color: rgb(192, 191, 191);
+}
+
+.info:hover {
+  color: rgb(0, 0, 0);
+}
+
+.table td, th {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 0.2rem;
+  text-align: center;
+  line-height: 1.2em;
+  font-size: medium;
+
+}
+
+th {
+  background-color: rgb(197, 203, 206);
+}
+
+.table {
+  border-collapse: collapse;
+  padding: 10px;
+  margin: 10px;
+  height: auto;
+}
+
+.table caption {
+  font-size: 1rem;
+}
+
+#fileSystem td {
+  color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 255, 0);
+}
+
+.block {
+  padding: 10px;
+  border: solid rgb(0, 0, 0);
+  background-color: rgb(114, 114, 114);
+}
+
+.sys {
+  display: inline-flex;
+}
+
+#tbodyFileSystem {
+  box-sizing: border-box;
+}
+
+.memoryTable {
+  display: inline-flex;
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
+.inode{
+  padding-top: 10px;
+}
+
+/* .tree ul {
+  padding-left: 5px;
+  list-style: none;
+}
+
+.tree ul li {
+  position: relative;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+
+}
+
+.tree ul li:before {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 1px;
+  margin: auto;
+  content: '';
+  background-color: #666;
+}
+
+.tree ul li:after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  content: '';
+  background-color: #666;
+}
+
+.tree ul li:last-child:after {
+  height: 15px;
+}
+*/
+
+.frag {
+  background-color: #fff;
+  background-image: radial-gradient(circle, #f08080 20%, transparent 10%), radial-gradient(circle, #f08080 20%, transparent 10%);
+  background-size: 9px 9px;
+  background-position: 0 0, 50px 50px;
+}
+
+.cores {
+color: #de3163;
+color: #ffbf00;
+color: #ff7f50;
+color: #9fe2bf;
+color: #40e0d0;
+color: #6495ed;
+color: #005f73;
+color: #ccccff;
+color: #dfff00;
+color: #6b705c;
+color: #cb997e;
+color: #a5a58d;
+color: #ef3bff;
+color: #ca6702;
+color: #9b2226;
+color: #32348f;
+color: #023e8a;
+color: #00b4d8;
+color: #caffbf;
+color: #ffc6ff;
+color: #7209b7;
+} 

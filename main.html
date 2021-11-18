@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="main.css">
+  <script src="main.js" defer></script>
+  <title>Document</title>
+</head>
+
+<body>
+
+  <h2 class="mainTitle">File System Simulator</h2>
+
+  <div class="card">
+
+    <input form="fileSystem" class="button" type="submit" value="Confirm">
+
+    <form id="fileSystem" class="form" value="Add"
+      onsubmit="return settings(memorySize.value, blockSize.value, Columns.value, reserve.value)">
+
+      <label for="memorySize">Memory Size </label>
+      <input type="number" id="memorySize" value=128>
+
+      <label for="blockSize"> Block Size </label>
+      <input type="number" id="blockSize" value=4>
+
+      <label for="Columns">File System Table Columns </label>
+      <input type="number" id="Columns" value=8>
+
+      <label for="reserve"> Reserve </label>
+      <input type="number" id="reserve">
+
+      <p> Os valores de MemorySize e BlockSize precisam ser potências de 2.
+      <p>O valor de reserva será (reserve || memorySize / blockSize)</p>
+
+    </form>
+
+
+  </div>
+
+  <div class="card">
+
+
+    <label for="button"> Folder </label>
+    <input form="addFolder" class="button" type="submit" value="Add">
+
+    <form id="addFolder" class="form" onsubmit="return createTree(nameFolder.value, path.value, 'folder')">
+
+      <label for="nameFolder">Name </label>
+      <input type="text" id="nameFolder">
+
+      <label for="path"> Storage Path </label>
+      <input type="text" id="path" value="/">
+
+    </form>
+
+
+
+  </div>
+
+
+  <div class="card">
+
+    <label> File </label>
+    <input form="addFile" class="button" type="submit" value="Add">
+
+    <form id="addFile" class="form" onsubmit="return createTree(nameFile.value, path.value, 'file', size.value)">
+
+      <label for="nameFile">Name </label>
+      <input type="text" id="nameFile">
+
+      <label for="path"> Storage Path </label>
+      <input type="text" id="path" value= />
+
+      <label for="size"> Size </label>
+      <input type="number" id="size" value=10>
+
+    </form>
+
+  </div>
+  <div class="corpo">
+    <div class="card">
+      <div class="tree">
+        <h2 class="title">Tree</h2>
+
+
+        <li id="/" class="folder"><i class="fa fa-folder"></i>/
+          <ul>
+          </ul>
+        </li>
+
+      </div>
+    </div>
+
+    <!-- <button onclick="return creatTable">table</button> -->
+
+
+    <div class="card ">
+
+      <table id="inodeTable" class="table">
+        <caption>
+          <h2 class="title">InodeTable</h2>
+        </caption>
+        <thead id="theadInodeTable">
+          <tr>
+            <th>index</th>
+            <th>name</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyInodeTable">
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card inode">
+      <h2 id="inode" class="title">
+        @blocks
+      </h2>
+  </div>
+
+
+    <div class="card ">
+      <div class="memoryTable">
+<!--         <h2 class="fileSystem">Reserved to Inode Table</h2> -->
+        <table id="memoryTable" class="table">
+          <caption>
+            <h2 class="title">Adress</h2>
+          </caption>
+          <tbody id="tbodyMemory">
+          </tbody>
+        </table>
+
+        <table id="fileSystem" class="table">
+          <caption>
+            <h2 class="title">File System</h2>
+          </caption>
+          <tbody id="tbodyFileSystem">
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+</body>
+
+</html>
