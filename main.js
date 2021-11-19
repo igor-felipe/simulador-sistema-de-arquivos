@@ -1,10 +1,12 @@
 // Igor Felipe Gomes de Lima
 // Prática sistema de arquivos
 
-var fileObjs = []; 
-var blockSize; 
-var memorySize; 
-var tableColumns; 
+"use strict";
+
+var fileObjs = [];
+var blockSize;
+var memorySize;
+var tableColumns;
 var fileMap; // mapeamento dos blocos de file/folder na memória
 
 var getcolor = (function () {
@@ -65,7 +67,6 @@ document.addEventListener(
       }
       document.getElementById("inode").innerHTML = string;
     }
-
   },
   false
 );
@@ -97,7 +98,7 @@ function removeObj(li) {
     }
   }
 
-  // remove do fileObjs 
+  // remove do fileObjs
   for (let index = 0; index < fileObjs.length; index++) {
     if (fileObjs[index] != null) {
       let id = fileObjs[index]["path"];
@@ -107,11 +108,11 @@ function removeObj(li) {
     }
   }
 
-    //remove de fileMap
+  //remove de fileMap
   function removeFromFileMap(obj) {
     let inode = obj.inode;
     for (let index = 0; index < inode.length; index++) {
-      blockAddress = inode[index];
+     let blockAddress = inode[index];
       for (
         let index = blockAddress;
         index < blockSize + blockAddress;
@@ -222,7 +223,7 @@ function reserveBlocks(name, pathFather, type, size, path) {
   };
 
   // insira na primeira posição vazia ou acrescente ao final do fileObjs
-  for (index = 0; index <= fileObjs.length; index++) {
+  for (let index = 0; index <= fileObjs.length; index++) {
     if (fileObjs[index] == null) {
       fileObjs[index] = obj;
       break;
@@ -247,7 +248,7 @@ function writeBlocks(size, inode, color, path) {
   // escreve nos blocks reservados
   let sizeIndex = size;
   for (let index = 0; index < inode.length; index++) {
-    blockAddress = inode[index];
+    let blockAddress = inode[index];
     for (let index = blockAddress; index < blockSize + blockAddress; index++) {
       if (sizeIndex > 0) {
         sizeIndex--;
@@ -326,7 +327,7 @@ function updateInodeTable() {
 }
 
 // chamada pelo botão de confirmação, e roda apenas 1 vez.
-function settings(memory, block, Columns, reserve) {
+function settings(memory, block, columns, reserve) {
   if (settings.on) {
     return false;
   }
@@ -334,8 +335,9 @@ function settings(memory, block, Columns, reserve) {
 
   memorySize = parseInt(memory);
   blockSize = parseInt(block);
-  Columns = parseInt(Columns);
-  tableColumns = Columns * blockSize;
+  tableColumns = parseInt(columns);
+  reserve = parseInt(columns);
+  tableColumns = tableColumns * blockSize;
   fileMap = new Array(memorySize);
 
   // escreve o espaço reservado
@@ -406,4 +408,3 @@ function updateFileSystem() {
 
   return false;
 }
-
