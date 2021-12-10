@@ -96,7 +96,7 @@ p{
   padding-right: 7px;
 }
 
-.tree .fa-minus-circle {
+.tree .fa-minus-circle, .fa-lock, .fa-unlock {
   padding-left: 7px;
 }
 
