@@ -48,18 +48,19 @@
     <label for="button"> Folder </label>
     <input form="addFolder" class="button" type="submit" value="Add">
 
-    <form id="addFolder" class="form" onsubmit="return createTree(nameFolder.value, path.value, 'folder')">
+    <form id="addFolder" class="form"
+      onsubmit="return createTree(name.value, path.value, 'folder', size.value, password.value)">
 
       <label for="nameFolder">Name </label>
-      <input type="text" id="nameFolder">
+      <input type="text" id="name">
 
       <label for="path"> Storage Path </label>
       <input type="text" id="path" value="/">
 
+      <label for="password"> Password </label>
+      <input type="text" id="password" value="aaa">
     </form>
-
-
-
+  
   </div>
 
 
@@ -68,16 +69,20 @@
     <label> File </label>
     <input form="addFile" class="button" type="submit" value="Add">
 
-    <form id="addFile" class="form" onsubmit="return createTree(nameFile.value, path.value, 'file', size.value)">
+    <form id="addFile" class="form"
+      onsubmit="return createTree(name.value, path.value, 'file', size.value, password.value)">
 
       <label for="nameFile">Name </label>
-      <input type="text" id="nameFile">
+      <input type="text" id="name">
 
       <label for="path"> Storage Path </label>
       <input type="text" id="path" value= />
 
       <label for="size"> Size </label>
       <input type="number" id="size" value=10>
+
+      <label for="password"> Password </label>
+      <input type="text" id="password" value="aaa">
 
     </form>
 
@@ -86,7 +91,6 @@
     <div class="card">
       <div class="tree">
         <h2 class="title">Tree</h2>
-
 
         <li id="/" class="folder"><i class="fa fa-folder"></i>/
           <ul>
@@ -121,12 +125,12 @@
       <h2 id="inode" class="title">
         @blocks
       </h2>
-  </div>
+    </div>
 
 
     <div class="card ">
       <div class="memoryTable">
-<!--         <h2 class="fileSystem">Reserved to Inode Table</h2> -->
+        <!--         <h2 class="fileSystem">Reserved to Inode Table</h2> -->
         <table id="memoryTable" class="table">
           <caption>
             <h2 class="title">Adress</h2>
@@ -148,7 +152,11 @@
 
   </div>
 
-
+  <div class="card">
+    <h2 id="inode" class="title">
+      @blocks
+    </h2>
+  </div>
 
 
 </body>
