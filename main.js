@@ -42,20 +42,86 @@ var getcolor = (function () {
   };
 })();
 
+function passwordCheck(item) {
+  let passwordInput = prompt("passwordInput");
+  const li = item.parentNode;
+  let password;
+
+  for (let index = 0; index < fileObjs.length; index++) {
+    if (fileObjs[index] != null) {
+      let id = fileObjs[index]["path"];
+      if (id.indexOf(li.id) > -1) {
+        password = fileObjs[index].password;
+        break;
+      }
+    }
+  }
+  
+  if (passwordInput == ceasarDecode(password, 1)) {
+    item.setAttribute("class", "fa fa-unlock");
+    return true;
+  }
+  alert("passwordInput inválida");
+  return false;
+}
+
+function loadFile(item) {
+  const li = item.parentNode;
+  const id = li.id;
+  let baseElement;
+
+  if (li.className == "folder") {
+    baseElement = document.getElementById("addFolder");
+  } else {
+    baseElement = document.getElementById("addFile");
+  }
+
+  for (let index = 0; index < fileObjs.length; index++) {
+    if (fileObjs[index].path == id) {
+      baseElement.querySelector("#name").value = fileObjs[index].name;
+      baseElement.querySelector("#path").value = fileObjs[index].pathFather;
+      baseElement.querySelector("#password").value = fileObjs[index].password;
+      break;
+    }
+  }
+}
+
+function addPassword(path, password) {
+  for (let index = 0; index < fileObjs.length; index++) {
+    if (fileObjs[index].path == path) {
+      fileObjs[index].password = password;
+      break;
+    }
+  }
+  return false;
+}
+
 document.addEventListener(
   "click",
   (e) => {
     let item = e.target;
 
-    // remove file/folder de todos os lugares
-    if (item.className == "fa fa-minus-circle") {
-      const li = item.parentNode;
-      if (li.id != "/") {
+    loadFile(item);
+
+    // click em Tree
+    const className = item.className;
+    switch (className) {
+      case "fa fa-lock":
+        passwordCheck(item);
+        break;
+      case "fa fa-unlock":
+        item.setAttribute("class", "fa fa-lock");
+        break;
+      // remove file/folder de todos os lugares
+      case "fa fa-minus-circle":
+        const li = item.parentNode;
         removeObj(li);
-      }
+      default:
+        break;
     }
 
-    // mostra os endereços de blocos de um inode
+    // click em inodeTable
+    // mostra os endereços de blocos de um inode em @blocks
     if (item.tagName == "TD") {
       const tr = item.parentNode;
       let index = tr.firstChild.innerHTML;
@@ -72,6 +138,11 @@ document.addEventListener(
 );
 
 function removeObj(li) {
+  // não remover a pasta raiz.
+  if (li.id == "/") {
+    return false;
+  }
+
   // remove da arvore
   li.remove();
 
@@ -112,7 +183,7 @@ function removeObj(li) {
   function removeFromFileMap(obj) {
     let inode = obj.inode;
     for (let index = 0; index < inode.length; index++) {
-     let blockAddress = inode[index];
+      let blockAddress = inode[index];
       for (
         let index = blockAddress;
         index < blockSize + blockAddress;
@@ -129,7 +200,7 @@ function removeObj(li) {
 }
 
 var count = 0;
-function createTree(name, pathFather, type, size) {
+function createTree(name, pathFather, type, size, password) {
   let path;
 
   if (!name) {
@@ -144,6 +215,7 @@ function createTree(name, pathFather, type, size) {
   // pastas recebem barra no final
   if (type == "folder") {
     path = pathFather + name + "/";
+    size = blockSize;
   } else {
     path = pathFather + name;
   }
@@ -160,8 +232,10 @@ function createTree(name, pathFather, type, size) {
     // não permite nomes iguais numa mesma pasta
     found = fileObjs.find((element) => element && element.path == path);
     if (found) {
-      alert(name + "Já existe neste diretório");
-      return false;
+      //alert(name + "Já existe neste diretório");
+      //return false;
+      let li = document.getElementById(path);
+      removeObj(li);
     }
   } else return false;
 
@@ -170,12 +244,14 @@ function createTree(name, pathFather, type, size) {
     size = blockSize;
   }
 
-  reserveBlocks(name, pathFather, type, size, path);
+  password = ceasarEncode(password, 1);
+
+  reserveBlocks(name, pathFather, type, size, path, password);
 
   return false;
 }
 //----------------------------------------------------------------
-function reserveBlocks(name, pathFather, type, size, path) {
+function reserveBlocks(name, pathFather, type, size, path, password) {
   let inode = [];
   let fullBlocks = Math.floor(size / blockSize); // quantidade de blocos que serão ocupados por completo
   let totalBlocks = fullBlocks;
@@ -220,6 +296,7 @@ function reserveBlocks(name, pathFather, type, size, path) {
     type: type,
     color: color,
     inode: inode,
+    password: password,
   };
 
   // insira na primeira posição vazia ou acrescente ao final do fileObjs
@@ -273,6 +350,10 @@ function addFolder(obj) {
 
   li.innerHTML = `<i class="fa fa-folder"></i>${name}<i class="fa fa-minus-circle"></i>`;
 
+  if (obj.password != "") {
+    li.innerHTML += `<i class="fa fa-lock"></i>`;
+  }
+
   li.appendChild(ul);
   let fatherUl = father.querySelector("ul");
   fatherUl.appendChild(li);
@@ -294,6 +375,10 @@ function addFile(obj) {
   let ul = document.createElement("ul");
 
   li.innerHTML = `<i class="fa fa-file"></i>${name} <span class="info">${size}KB</span><i class="fa fa-minus-circle"></i>`;
+
+  if (obj.password != "") {
+    li.innerHTML += `<i class="fa fa-lock"></i>`;
+  }
 
   li.appendChild(ul);
   let fatherUl = father.querySelector("ul");
@@ -406,5 +491,67 @@ function updateFileSystem() {
     cellMemory.innerHTML = "@" + jk * tableColumns;
   }
 
+  return false;
+}
+
+function ceasarEncode(str, shift) {
+  let str2 = "";
+
+  for (let index = 0; index < str.length; index++) {
+    let code = str.charCodeAt(index);
+    let code2 = code + shift;
+
+    if (isLower(code)) {
+      if (!isLower(code2)) {
+        code2 -= 26;
+      }
+    } else if (isUpper(code)) {
+      if (!isUpper(code2)) {
+        code2 -= 26;
+      }
+    } else {
+      str2 += String.fromCharCode(code);
+      continue;
+    }
+    str2 += String.fromCharCode(code2);
+  }
+  return str2;
+}
+
+function ceasarDecode(str, shift) {
+  let str2 = "";
+
+  for (let index = 0; index < str.length; index++) {
+    let code = str.charCodeAt(index);
+    let code2 = code - shift;
+
+    if (isLower(code)) {
+      if (!isLower(code2)) {
+        code2 += 26;
+      }
+    } else if (isUpper(code)) {
+      if (!isUpper(code2)) {
+        code2 += 26;
+      }
+    } else {
+      str2 += String.fromCharCode(code);
+      continue;
+    }
+    str2 += String.fromCharCode(code2);
+  }
+  return str2;
+}
+
+function isLower(code) {
+  if (code >= 97 && code <= 122) {
+    return true;
+  }
+  return false;
+}
+
+function isUpper(code) {
+  if (code >= 65 && code <= 90) {
+    return true;
+  }
   return false;
 }
